@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Backend API iskeletini oluştur",
+    "description": "Express.js ile temel sunucu ve routing yapısını kur",
+    "priority": "high",
+    "status": "completed",
+    "assignee": "musa",
+    "createdAt": "2026-11-19T08:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Görev CRUD endpointlerini geliştir",
+    "description": "Ekleme, listeleme, detay, güncelleme ve silme işlemlerini tamamla",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "ayse",
+    "createdAt": "2026-11-19T09:00:00.000Z"
+  }
+]

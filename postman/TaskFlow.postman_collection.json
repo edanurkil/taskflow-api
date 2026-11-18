@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "TaskFlow API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Tüm görevleri listele",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/tasks?page=1&limit=10"
+      }
+    },
+    {
+      "name": "Görev ekle",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Postman ile yeni görev\",\n  \"description\": \"CRUD işlemlerini Postman üzerinde doğrula\",\n  \"priority\": \"high\",\n  \"status\": \"pending\",\n  \"assignee\": \"musa\"\n}"
+        },
+        "url": "{{baseUrl}}/tasks"
+      }
+    },
+    {
+      "name": "Görev detayını getir",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/tasks/1"
+      }
+    },
+    {
+      "name": "Görevi güncelle",
+      "request": {
+        "method": "PUT",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"completed\",\n  \"priority\": \"medium\"\n}"
+        },
+        "url": "{{baseUrl}}/tasks/1"
+      }
+    },
+    {
+      "name": "Görevi sil",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/tasks/2"
+      }
+    },
+    {
+      "name": "Görev ara",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/tasks/search?keyword=backend"
+      }
+    },
+    {
+      "name": "Genel özet",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/reports/summary"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
