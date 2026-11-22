@@ -5,8 +5,10 @@
     "description": "Express.js ile temel sunucu ve routing yapısını kur",
     "priority": "high",
     "status": "completed",
-    "assignee": "musa",
-    "createdAt": "2026-11-19T08:00:00.000Z"
+    "assignee": "eda",
+    "projectId": "1",
+    "createdAt": "2026-11-19T08:00:00.000Z",
+    "updatedAt": "2026-11-19T08:00:00.000Z"
   },
   {
     "id": "2",
@@ -14,7 +16,20 @@
     "description": "Ekleme, listeleme, detay, güncelleme ve silme işlemlerini tamamla",
     "priority": "high",
     "status": "pending",
-    "assignee": "ayse",
-    "createdAt": "2026-11-19T09:00:00.000Z"
+    "assignee": "eda",
+    "projectId": "1",
+    "createdAt": "2026-11-19T09:00:00.000Z",
+    "updatedAt": "2026-11-19T09:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "Postman ile yeni görev",
+    "description": "CRUD işlemlerini Postman üzerinde doğrula",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "user1795374736",
+    "projectId": "2",
+    "createdAt": "2026-11-22T19:23:06.717Z",
+    "updatedAt": "2026-11-22T19:23:06.717Z"
   }
 ]

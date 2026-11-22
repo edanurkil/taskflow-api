@@ -1,36 +1,41 @@
 const express = require("express");
 const requestLogger = require("./middleware/requestLogger");
+const { notFound, errorHandler } = require("./middleware/errorHandler");
 const tasksRouter = require("./routes/tasks");
 const reportsRouter = require("./routes/reports");
+const projectsRouter = require("./routes/projects");
+const employeesRouter = require("./routes/employees");
 
 const app = express();
 
-app.use(express.json());
 app.use(requestLogger);
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
     name: "TaskFlow API",
-    message: "Task and project management REST API",
-    endpoints: ["/tasks", "/tasks/search", "/reports/summary"]
+    message: "Görev ve Proje Yönetim Sistemi REST API",
+    endpoints: [
+      "/tasks",
+      "/tasks/search?keyword=",
+      "/tasks/assignee/:assignee",
+      "/projects",
+      "/projects/:id/tasks",
+      "/employees",
+      "/employees/:id/tasks",
+      "/reports/completed",
+      "/reports/pending",
+      "/reports/summary"
+    ]
   });
 });
 
 app.use("/tasks", tasksRouter);
+app.use("/projects", projectsRouter);
+app.use("/employees", employeesRouter);
 app.use("/reports", reportsRouter);
 
-app.use((req, res) => {
-  res.status(404).json({
-    error: "Endpoint bulunamadı",
-    path: req.originalUrl
-  });
-});
-
-app.use((error, req, res, next) => {
-  if (error instanceof SyntaxError && "body" in error) {
-    return res.status(400).json({ error: "Geçersiz JSON formatı" });
-  }
-  return res.status(500).json({ error: "Beklenmeyen sunucu hatası" });
-});
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;

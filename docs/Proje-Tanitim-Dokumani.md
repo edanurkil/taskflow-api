@@ -1,23 +1,35 @@
-# TaskFlow - Proje Tanıtım Dokümanı
+# TASKFLOW — Proje Tanıtım Dokümanı
 
-## Amaç
+## Amaç ve senaryo
 
-TaskFlow, bir yazılım şirketindeki ekiplerin görev ve sorumluluklarını merkezi olarak takip etmelerini sağlayan REST API sistemidir.
+TASKFLOW, Node.js ile Backend Programlama bitirme projesi kapsamında geliştirilen görev ve proje yönetim REST API'sidir. Bir yazılım ekibinin görevleri oluşturmasını, çalışan kullanıcı adlarına atamasını, durum ve öncelikleri takip etmesini ve görevleri projelere bağlamasını sağlar.
 
-## Senaryo
+## Sistem özeti
 
-Takım üyeleri; yeni görevler oluşturabilir, görevleri çalışanlara atayabilir, durum ve öncelik bilgilerini değiştirebilir, görevleri filtreleyebilir ve temel raporları görüntüleyebilir.
+| Bileşen | Açıklama |
+|---|---|
+| Teknoloji | Node.js 18+, Express.js |
+| Mimari | REST; route → controller → JSON veri katmanı |
+| Varlıklar | Task, Project, Employee |
+| Veri saklama | `data/` içindeki JSON dosyaları |
+| Test | Postman koleksiyonu ve `npm test` |
 
-## Sistem Özellikleri
+Görevlerde `assignee` bir çalışan kullanıcı adı metnidir (ör. `eda`); `projectId` ise mevcut bir projeye opsiyonel bağlantıdır. Kimlik doğrulama, veritabanı ve kullanıcı arayüzü kapsam dışıdır.
 
-- Görev oluşturma, listeleme, detay görüntüleme, güncelleme ve silme
-- Durum, öncelik, kullanıcı ve anahtar kelimeye göre sorgulama
-- Sayfalama ve oluşturulma tarihine göre sıralama
-- Görev verilerinin `JSON` dosyasında kalıcı tutulması
-- Tüm HTTP isteklerinin konsola ve `logs/requests.log` dosyasına kaydedilmesi
-- Gönderilen görev verilerinin validation middleware ile doğrulanması
-- Tamamlanan, bekleyen ve genel özet raporları
+## PDF yönergesindeki zorunlu kapsam
 
-## Kullanılan Teknolojiler
+- Görev ekleme, listeleme, detay görüntüleme, güncelleme ve silme
+- Express routing yapısı
+- Tüm istekleri method, endpoint ve zaman damgasıyla kaydeden logger middleware
+- Görev CRUD uçlarının Postman üzerinden test edilmesi
 
-Node.js, Express.js, REST API, JavaScript, JSON ve Postman.
+## Eklenen isteğe bağlı özellikler
+
+Durum ve öncelik filtreleri, anahtar kelime arama, kullanıcıya göre görev listeleme, sıralama, sayfalama, validation, raporlama, Project/Employee CRUD'u ve kapsamlı dokümantasyon.
+
+## Teslim çıktıları
+
+1. Proje kaynak kodları ve `package.json`
+2. Bu proje tanıtım dokümanı
+3. Kurulum ve kullanım yönergesi: [README.md](../README.md)
+4. Postman CRUD test ekran görüntüleri: [screenshots yönergesi](screenshots/README.md)

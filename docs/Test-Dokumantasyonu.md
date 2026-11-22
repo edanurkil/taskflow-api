@@ -1,36 +1,34 @@
 # Test Dokümantasyonu
 
-## Otomatik Testler
+## Otomatik testler
 
-Otomatik testleri çalıştırmak için:
-
-```bash
+```powershell
 npm test
 ```
 
-Kapsanan senaryolar:
+Node.js `node:test` ve yerleşik `fetch` kullanılır. Test süreci `DATA_DIR` ve `LOG_DIR` değerlerini işletim sisteminin geçici klasörüne yönlendirir; gerçek proje verilerini değiştirmez ve ek test paketi gerektirmez.
 
-- Görevleri sayfalı listeleme
-- Yeni görev oluşturma
-- Geçersiz görev verisini reddetme
-- Görev detayını görüntüleme
-- Görev güncelleme
-- Görev silme
-- Sistem özetini raporlama
+Test kapsamı:
 
-## Postman CRUD Testleri
+- Root ve bilinmeyen endpoint yanıtları
+- Görev CRUD akışı, sayfalı liste, kısmi güncelleme ve korunan alanlar
+- Zorunlu alan, enum, metin uzunluğu, proje referansı ve bozuk JSON doğrulaması
+- Filtreleme, assignee arama, keyword search, sıralama ve sayfalama
+- Project/Employee CRUD, benzersiz username/e-posta ve ilişkili görev listeleri
+- İlişkili görev varken Project/Employee silmenin engellenmesi
+- Rapor sayılarının tutarlılığı
+- Logger'ın başarılı ve hatalı JSON isteklerinde durum/süre kaydı
 
-Postman koleksiyonu `postman/TaskFlow.postman_collection.json` dosyasındadır.
+## Postman
 
-1. `GET /tasks?page=1&limit=10` ile tüm görevleri listeleyin ve `200 OK` bekleyin.
-2. `POST /tasks` ile örnek gövde gönderin ve `201 Created` bekleyin.
-3. Dönen görevin `id` değerini detay isteğine ekleyin.
-4. `PUT /tasks/:id` ile durum veya öncelik güncelleyin.
-5. `DELETE /tasks/:id` ile görevi silin ve `200 OK` bekleyin.
-6. Hatalı veya eksik POST gövdesi göndererek `400 Bad Request` doğrulayın.
+`postman/TaskFlow.postman_collection.json` dosyasını Postman'e aktarın ve sunucu çalışırken Collection Runner ile klasörleri sırasıyla çalıştırın. Testler oluşturulan employee, project ve task ID'lerini değişkenlere kaydeder; temizlik klasörü eklenen proje ve çalışanları kaldırır.
 
-## Beklenen Sonuçlar
+Temel CRUD kanıtı için `docs/screenshots/README.md` dosyasındaki beş Postman görüntüsünü kaydedin. Görüntüde method/URL, request body, HTTP status ve response body birlikte görünmelidir.
 
-- Başarılı CRUD işlemleri doğru HTTP durum kodunu döndürmelidir.
-- Bulunmayan görev için `404` döndürülmelidir.
-- Geçersiz görev verisi için açıklamalı `400` yanıtı döndürülmelidir.
+## Önemli beklenen durum kodları
+
+- Geçerli POST: `201`
+- Geçerli GET/PUT/DELETE: `200`
+- Hatalı alan, sorgu ya da JSON: `400`
+- Olmayan kayıt/endpoint: `404`
+- Tekrarlayan username/e-posta veya bağlı kayıt silme: `409`

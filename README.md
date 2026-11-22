@@ -1,68 +1,81 @@
-# TaskFlow API
+# TASKFLOW — Görev ve Proje Yönetim Sistemi API
 
-TaskFlow; Node.js, Express.js ve REST mimarisi ile geliştirilmiş görev ve proje yönetim API'sidir.
+Node.js ve Express.js ile geliştirilmiş REST API. PDF yönergesindeki zorunlu görev CRUD'u, logger ve Postman tesliminin yanında ZIP kaynağındaki filtreleme, doğrulama, raporlama ve proje/çalışan yönetimi özelliklerini de içerir.
 
-## Kurulum
+## Gereksinimler
 
-1. Node.js 18 veya üzerini kurun.
-2. Proje klasöründe bağımlılıkları yükleyin:
-   ```bash
-   npm install
-   ```
-3. Sunucuyu başlatın:
-   ```bash
-   npm start
-   ```
-4. API varsayılan olarak `http://localhost:3000` adresinden çalışır.
+- Node.js 18 veya üzeri
+- npm (Node.js ile birlikte gelir)
+
+## Kurulum ve çalıştırma
+
+```powershell
+npm ci
+npm start
+```
+
+API varsayılan olarak `http://localhost:3000` adresinde çalışır. `GET /` ile endpoint listesini kontrol edin.
+
+Geliştirme sırasında dosya değişikliklerinde otomatik yeniden başlatma:
+
+```powershell
+npm run dev
+```
 
 ## Test
 
-```bash
+```powershell
 npm test
 ```
 
-## Temel Endpointler
+Testler Node.js'in yerleşik test altyapısını kullanır ve geçici bir veri klasöründe çalışır; `data/` içeriğini değiştirmez.
 
-| Method | Endpoint | Açıklama |
+## İsteğe bağlı ortam değişkenleri
+
+| Değişken | Varsayılan | Açıklama |
 |---|---|---|
-| GET | `/tasks` | Görevleri listeler |
-| POST | `/tasks` | Yeni görev oluşturur |
-| GET | `/tasks/:id` | Görev detayını getirir |
-| PUT | `/tasks/:id` | Görevi günceller |
-| DELETE | `/tasks/:id` | Görevi siler |
-| GET | `/tasks/search?keyword=backend` | Görevlerde arama yapar |
-| GET | `/tasks/assignee/musa` | Kullanıcıya göre listeler |
-| GET | `/reports/summary` | Genel sistem özeti |
+| `PORT` | `3000` | HTTP portu |
+| `DATA_DIR` | `./data` | JSON veri dosyalarının klasörü |
+| `LOG_DIR` | `./logs` | İstek loglarının klasörü |
+| `LOG_CONSOLE` | `true` | `false` ise konsol logunu kapatır |
+| `LOG_TO_FILE` | `true` | `false` ise dosya logunu kapatır |
 
-## Görev Gövdesi Örneği
+PowerShell örneği:
 
-```json
-{
-  "title": "Postman testlerini hazırla",
-  "description": "CRUD endpointleri için test koleksiyonu oluştur",
-  "priority": "high",
-  "status": "pending",
-  "assignee": "musa"
-}
+```powershell
+$env:PORT=4000
+npm start
 ```
 
-## Dosya Yapısı
+## Endpoint özeti
 
-- `src/app.js`: Express uygulaması
-- `src/server.js`: Sunucu başlatma
-- `src/routes`: Görev ve rapor rotaları
-- `src/middleware`: Logger ve doğrulama middleware'leri
-- `src/models`: JSON veri deposu işlemleri
-- `data/tasks.json`: Görev verileri
-- `logs/requests.log`: İstek kayıtları
+| Kaynak | Endpoint |
+|---|---|
+| Görev CRUD | `POST/GET /tasks`, `GET/PUT/DELETE /tasks/:id` |
+| Görev arama/liste | `GET /tasks/search?keyword=`, `GET /tasks/assignee/:assignee`, `GET /tasks?status=&priority=&assignee=&projectId=&sort=&page=&limit=` |
+| Projeler | `POST/GET /projects`, `GET/PUT/DELETE /projects/:id`, `GET /projects/:id/tasks` |
+| Çalışanlar | `POST/GET /employees`, `GET/PUT/DELETE /employees/:id`, `GET /employees/:id/tasks` |
+| Raporlar | `GET /reports/completed`, `GET /reports/pending`, `GET /reports/summary` |
 
-## Postman Testleri
+Görev durumları `pending`, `in_progress`, `completed`; öncelikler `low`, `medium`, `high` değerlerini alır. Liste endpoint'leri `{ data, pagination }` yanıtı verir. Atanan kişi `assignee` alanında metin kullanıcı adı olarak tutulur (ör. `eda`); göreve yalnızca opsiyonel `projectId` ilişkisi eklenir.
 
-`postman/TaskFlow.postman_collection.json` dosyasını Postman'e içe aktarın.
-Toplu URL değeri olarak `http://localhost:3000` kullanılır.
+## Postman
 
-## Ek Dokümantasyon
+`postman/TaskFlow.postman_collection.json` dosyasını Postman'e aktarın. Koleksiyonu Collection Runner ile sırasıyla çalıştırın. `baseUrl`, `employeeId`, `employeeUsername`, `projectId` ve `taskId` koleksiyon değişkenleri otomatik kullanılır.
 
-- [Proje tanıtım dokümanı](docs/Proje-Tanitim-Dokumani.md)
-- [API dokümantasyonu](docs/API-Dokumantasyonu.md)
-- [Test dokümantasyonu](docs/Test-Dokumantasyonu.md)
+## Veri ve mimari
+
+- `data/tasks.json`, `data/projects.json`, `data/employees.json`: JSON veri deposu
+- `logs/requests.log`: method, URL, zaman damgası, durum kodu ve süre içeren istek logu
+- `src/routes` → `src/controllers` → `src/models`: route, iş mantığı ve veri erişim katmanları
+- Logger, JSON body parser'dan önce; not-found ve error handler'lar route'lardan sonra çalışır.
+
+## Dokümantasyon ve teslim
+
+- [Proje Tanıtım Dokümanı](docs/Proje-Tanitim-Dokumani.md)
+- [Veri Modeli](docs/Veri-Modeli.md)
+- [API Tasarımı](docs/API-Tasarim.md)
+- [API Dokümantasyonu](docs/API-Dokumantasyonu.md)
+- [Test Dokümantasyonu](docs/Test-Dokumantasyonu.md)
+- [Kullanım Kılavuzu](docs/Kullanim-Kilavuzu.md)
+- [Postman ekran görüntüsü yönergesi](docs/screenshots/README.md)

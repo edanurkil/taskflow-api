@@ -1,16 +1,29 @@
 const fs = require("fs");
 const path = require("path");
 
-const logDirectory = path.join(__dirname, "..", "..", "logs");
-const logFile = path.join(logDirectory, "requests.log");
+function logFilePath() {
+  const directory = process.env.LOG_DIR || path.join(__dirname, "..", "..", "logs");
+  return { directory, file: path.join(directory, "requests.log") };
+}
 
 function requestLogger(req, res, next) {
-  const logEntry = `${new Date().toISOString()} ${req.method} ${req.originalUrl}\n`;
-  console.log(logEntry.trim());
+  const timestamp = new Date().toISOString();
+  const start = process.hrtime.bigint();
 
-  fs.mkdirSync(logDirectory, { recursive: true });
-  fs.appendFile(logFile, logEntry, (error) => {
-    if (error) console.error("Log dosyasına yazılamadı:", error.message);
+  res.on("finish", () => {
+    const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
+    const line = `${timestamp} ${req.method} ${req.originalUrl} ${res.statusCode} ${durationMs.toFixed(1)}ms`;
+
+    if (process.env.LOG_CONSOLE !== "false") console.log(line);
+    if (process.env.LOG_TO_FILE === "false") return;
+
+    try {
+      const { directory, file } = logFilePath();
+      fs.mkdirSync(directory, { recursive: true });
+      fs.appendFileSync(file, `${line}\n`, "utf8");
+    } catch (error) {
+      console.error("Log dosyasına yazılamadı:", error.message);
+    }
   });
 
   next();

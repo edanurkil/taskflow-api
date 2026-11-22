@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "username": "eda",
+    "name": "Eda",
+    "email": "eda@taskflow.dev",
+    "role": "Backend Developer",
+    "createdAt": "2026-11-19T08:00:00.000Z",
+    "updatedAt": "2026-11-19T08:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "username": "user1795374736",
+    "name": "Test Çalışanı",
+    "email": "user1795374736@taskflow.dev",
+    "role": "Developer",
+    "createdAt": "2026-11-22T19:12:16.070Z",
+    "updatedAt": "2026-11-22T19:12:16.070Z"
+  }
+]

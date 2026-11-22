@@ -1,20 +1,20 @@
 {
-  "name": "taskflow-api",
+  "name": "taskflow",
   "version": "1.0.0",
-  "description": "Task and project management REST API",
+  "description": "TASKFLOW - Task and project management REST API",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test"
+    "test": "node --test tests/api.test.js"
   },
-  "keywords": ["node", "express", "rest", "taskflow"],
+  "keywords": ["nodejs", "express", "rest-api", "crud", "middleware"],
+  "engines": {
+    "node": ">=18"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "express": "^5.1.0"
-  },
-  "devDependencies": {
-    "supertest": "^7.1.4"
   }
 }
